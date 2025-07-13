@@ -25,7 +25,7 @@ public class Coordinador {
         }
     }
 
-    // Método que notifica a los hilos que estan en espera que la carga esta lista.
+    // Método que notifica a los hilos que están en espera que la carga está lista.
     public synchronized void cargaLista() {
         archivoCargado = true;
         notifyAll();
