@@ -11,12 +11,17 @@ package com.safevotesystem.logica;
 
 public class Coordinador {
     private boolean archivoCargado = false;
+    private boolean errorCarga = false;
 
     // Método que espera que a que se carguen los números desde el archivo.
     public synchronized void esperarCarga() throws InterruptedException {
-        while (!archivoCargado) {
+        while (!archivoCargado && !errorCarga) {
             System.out.println(Thread.currentThread().getName() + " esperando la carga de archivos.");
             wait();
+        }
+        
+        if (errorCarga) {
+            throw new IllegalStateException(Thread.currentThread().getName() + " no ejecutará esta tarea por error en la carga.");
         }
     }
 
@@ -24,6 +29,16 @@ public class Coordinador {
     public synchronized void cargaLista() {
         archivoCargado = true;
         notifyAll();
+    }
+    
+    // Método que notifica a los hilos si hubo un error en la carga.
+    public synchronized void errorEnCarga() {
+        errorCarga = true;
+        notifyAll();
+    }
+    
+    public synchronized boolean estadoErrorCarga() {
+        return errorCarga;
     }
     
 }

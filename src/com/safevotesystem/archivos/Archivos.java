@@ -34,8 +34,9 @@ public class Archivos {
                 String[] numeros = linea.split(",");
                 
                 for (String numero : numeros) {
+                    numero = numero.trim();
                     try {
-                        int num = Integer.parseInt(numero.trim());
+                        int num = Integer.parseInt(numero);
                         cola.put(num);
                         System.out.println("Número agregado desde el archivo a la cola: " + num);
                     } catch (NumberFormatException e) {
@@ -50,6 +51,7 @@ public class Archivos {
             coordinador.cargaLista();
         } catch (IOException e) {
             System.out.println("Error al cargar los números primos desde el archivo: " + e.getMessage());
+            coordinador.errorEnCarga();
         }
     }
     

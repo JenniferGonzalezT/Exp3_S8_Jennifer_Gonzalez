@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * Clase Topic que publica mensajes de los números generados aleatoriamente
+ * Clase TopicNumeros que publica mensajes de los números generados aleatoriamente
  * suscribiendo a los hilos.
  * @author jennifer
  */

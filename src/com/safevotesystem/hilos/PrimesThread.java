@@ -31,14 +31,18 @@ public class PrimesThread implements Runnable {
     public void run() {
         try {
             // Los hilos esperan a que termine la carga de archivos.
-            coordinador.esperarCarga();
-            
+            try {
+                coordinador.esperarCarga();
+            } catch(IllegalStateException e) {
+                System.out.println(Thread.currentThread().getName() + " termina su tarea con el archivo por error en la carga.");
+            }
             
             // Agregar los números del archivo desde la cola, verificando si son primos.
-            while (true) {
+            while (!coordinador.estadoErrorCarga()) {
                 Integer numero = cola.poll();
                 
                 if (numero == null) {
+                    System.out.println(Thread.currentThread().getName() + " no encontró más elementos en la cola.");
                     break;
                 }
                 
@@ -53,7 +57,6 @@ public class PrimesThread implements Runnable {
                     System.out.println(Thread.currentThread().getName() + " descartó desde la Cola: " + numero);
                 }
             }
-            System.out.println(Thread.currentThread().getName() + " no encontró más elementos en la cola.");
             
             
             // Generar 10 números aleatorios, publicarlos y suscribirlos en el Topic.
