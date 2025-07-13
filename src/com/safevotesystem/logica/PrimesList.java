@@ -18,21 +18,16 @@ public class PrimesList extends ArrayList<Integer> {
 
     // Método isPrime para verificar si un número es primo.
     public boolean isPrime(int numero) {
-        lock.lock();
-        try {
-            if (numero <= 1) {
+        if (numero <= 1) {
+            return false;
+        }
+
+        for (int i = 2; i * i <= numero; i++) {
+            if (numero % i == 0) {
                 return false;
             }
-
-            for (int i = 2; i * i <= numero; i++) {
-                if (numero % i == 0) {
-                    return false;
-                }
-            }
-            return true;
-        } finally {
-            lock.unlock();
         }
+        return true;
     }
 
     // Sobreescritura del método add() con Lock.
